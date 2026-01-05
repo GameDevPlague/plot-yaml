@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Game Script DSL",
+  "type": "object",
+  "required": [
+    "GlobalConfig",
+    "SceneGroup"
+  ],
+  "properties": {
+    "GlobalConfig": {
+      "type": "object",
+      "description": "全局配置",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "剧本名称，会在未来的流程图可视化中使用，且在Runtime中作为剧本标识",
+          "default": "新剧本"
+        },
+        "hasBranch": {
+          "type": ["boolean", "null"],
+          "description": "是否存在分支剧情(WIP)，目前没有具体用途",
+          "default": false
+        },
+        "nextSceneGroup": {
+          "type": "string",
+          "description": "下一个场景组文件名，为空则表示剧本结束"
+        }
+      }
+    },
+    "SceneGroup": {
+      "type": "array",
+      "description": "场景组列表",
+      "items": {
+        "type": "object",
+        "required": [
+          "useDialogFile",
+          "onFreeMove"
+        ],
+        "properties": {
+          "useLocalVariable": {
+            "type": "object",
+            "description": "【必填】定义本场景的局部变量状态",
+            "additionalProperties": {
+              "type": ["boolean", "string", "number"],
+              "description": "变量值 (布尔/字符串/数字)"
+            }
+            
+          },
+          "useDialogFile": {
+            "type": "array",
+            "description": "【必填】引用的对话文件列表 (.dialog)",
+            "items": {
+              "type": "string",
+              "pattern": "^\\./.*\\.dialog$"
+            }
+          },
+          "onSetup": {
+            "type": "object",
+            "description": "场景初始化阶段",
+            "properties": {
+              "charSetup": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["char"],
+                  "properties": {
+                    "char": {
+                      "type": "string",
+                      "description": "角色ID (如: ema, hiro)"
+                    },
+                    "position": {
+                      "type": "string",
+                      "description": "坐标 x,y",
+                      "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$"
+                    },
+                    "defaultDialog": {
+                      "type": ["string", "null"],
+                      "description": "默认对话ID"
+                    },
+                    "dialoglist": {
+                      "type": "array",
+                      "description": "该角色拥有的对话列表",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "onIntro": {
+            "type": "object",
+            "description": "场景进入时的演出",
+            "properties": {
+              "playDialog": {
+                "type": "string",
+                "description": "播放指定的 intro 对话ID"
+              }
+            }
+          },
+          "onFreeMove": {
+            "type": "object",
+            "description": "【必填】自由移动/探索阶段逻辑",
+            "required": ["progressSchema"],
+            "properties": {
+              "progressSchema": {
+                "type": "string",
+                "description": "进度推进规则",
+                "enum": ["by-match-variables", "by-finish-dialog", "manual"],
+                "default": "manual"
+              },
+              "matchSchema": {
+                "type": "object",
+                "description": "通关/推进条件匹配 (变量状态)",
+                "additionalProperties": {
+                  "type": ["boolean", "string", "number"]
+                }
+              }
+            }
+          },
+          "onOutro": {
+            "type": "object",
+            "description": "场景结束时的演出",
+            "properties": {
+              "playDialog": {
+                "type": "string",
+                "description": "播放指定的 outro 对话ID"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
