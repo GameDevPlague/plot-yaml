@@ -1,0 +1,15 @@
+GlobalConfig:
+  name: 新剧本
+  hasBranch: false
+SceneGroup:
+  - 
+    onSetup:
+      charSetup:
+        -
+          char: koko
+          activeDialogLabel: start
+          defaultDialogLabel: default
+          position: 0,1
+          loadResources: ./dsji.dialogue
+    onFreeMove:
+      progressSchema: manual

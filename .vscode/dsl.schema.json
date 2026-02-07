@@ -36,7 +36,7 @@
       "items": {
         "type": "object",
         "required": [
-          "useDialogFile",
+          
           "onFreeMove"
         ],
         "properties": {
@@ -48,14 +48,6 @@
               "description": "变量值 (布尔/字符串/数字)"
             }
             
-          },
-          "useDialogFile": {
-            "type": "array",
-            "description": "【必填】引用的对话文件列表 (.dialog)",
-            "items": {
-              "type": "string",
-              "pattern": "^\\./.*\\.dialog$"
-            }
           },
           "onSetup": {
             "type": "object",
@@ -76,16 +68,18 @@
                       "description": "坐标 x,y",
                       "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$"
                     },
-                    "defaultDialog": {
+                    "defaultDialogLabel": {
                       "type": ["string", "null"],
-                      "description": "默认对话ID"
+                      "description": "默认对话Label"
                     },
-                    "dialoglist": {
-                      "type": "array",
-                      "description": "该角色拥有的对话列表",
-                      "items": {
-                        "type": "string"
-                      }
+                    "activeDialogLabel": {
+                      "type": ["string", "null"],
+                      "description": "行动对话Label"
+                    },
+                    "loadResources": {
+                      "type": "string",
+                      "description": "加载的单一对话文件",
+                      "pattern": "^\\./.*\\.dialogue$"
                     }
                   }
                 }
@@ -98,7 +92,7 @@
             "properties": {
               "playDialog": {
                 "type": "string",
-                "description": "播放指定的 intro 对话ID"
+                "description": "播放指定的 intro 对话Label"
               }
             }
           },

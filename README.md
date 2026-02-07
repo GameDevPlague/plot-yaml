@@ -33,66 +33,21 @@
 
 ### 🌰 举个栗子
 ```yaml
-## Scene
-GlobalConfig: ## Required
-  ## 名字，目前没有用途
-  name: "艾玛死掉啦"
-  hasBranch: 
-
-SceneGroup: ## Required
-  - useLocalVariable: { ## Required
-      isLove: false,
-      isDeath: true,
-      isrobot: false,
-      var123456spam: false, ## use as many as u want
-    }
-    useDialogFile: [ ## Required
-      ./dialoga.dialog,
-      ./dialogb.dialog,
-      ./intro.dialog,
-      ./outro.dialog,
-    ]
+GlobalConfig:
+  name: 新剧本
+  hasBranch: false
+SceneGroup:
+  - 
     onSetup:
       charSetup:
         -
-          char: ema ## Required
-          position: "0,0"
-          defaultDialog: null
-          dialoglist: [
-            dialoga,
-            dialogb,
-          ]
-        -
-          char: hiro ## Required
-
-    onIntro:
-      playDialog: intro
-
-    onFreeMove: ## Required
-      progressSchema: by-match-variables ## Required
-      matchSchema: {
-        isLove: false,
-        isDeath: true,
-        isrobot: false
-      }
-    onOutro:
-      playDialog: outro
-  - # Scene #2
-    useLocalVariable: {
-      isLove: false,
-      isDeath: true,
-      isrobot: false,
-    }
-    useDialogFile: [ ## Required
-      ./dialoga.dialog,
-      ./dialogb.dialog,
-      ./intro.dialog,
-      ./outro.dialog,
-    ]
+          char: koko
+          activeDialogLabel: start
+          defaultDialogLabel: default
+          position: 0,1
+          loadResources: ./dsji.dialogue
     onFreeMove:
       progressSchema: manual
-
-    
 
 ```
 
